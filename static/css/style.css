@@ -1,0 +1,266 @@
+/* ===== BASIC STYLING ===== */
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
+}
+
+body {
+    font-family: Arial, sans-serif;
+    background-color: #FFF8F0;
+    color: #382820;
+}
+
+
+/* ===== NAVIGATION BAR ===== */
+
+.navbar {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 22px 7%;
+    background-color: white;
+}
+
+.logo {
+    font-size: 27px;
+    font-weight: bold;
+    color: #382820;
+}
+
+.logo span {
+    color: #D96C3F;
+}
+
+.nav-links {
+    display: flex;
+    list-style: none;
+    gap: 30px;
+}
+
+.nav-links a {
+    text-decoration: none;
+    color: #382820;
+    font-size: 15px;
+    font-weight: 600;
+}
+
+.nav-links a:hover {
+    color: #D96C3F;
+}
+
+.nav-buttons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+}
+
+.login-btn,
+.register-btn {
+    text-decoration: none;
+    padding: 11px 20px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.login-btn {
+    color: #D96C3F;
+    border: 1px solid #D96C3F;
+}
+
+.register-btn {
+    background-color: #D96C3F;
+    color: white;
+}
+
+
+/* ===== HERO SECTION ===== */
+
+.hero {
+    min-height: 440px;
+    display: flex;
+    align-items: center;
+    padding: 70px 10%;
+    background-color: #F5E2D3;
+}
+
+.hero-content {
+    max-width: 650px;
+}
+
+.welcome-text {
+    color: #D96C3F;
+    font-weight: bold;
+    letter-spacing: 2px;
+    margin-bottom: 20px;
+}
+
+.hero h1 {
+    font-size: 48px;
+    line-height: 1.2;
+    margin-bottom: 20px;
+}
+
+.hero h1 span {
+    color: #D96C3F;
+}
+
+.hero-description {
+    font-size: 17px;
+    line-height: 1.7;
+    margin-bottom: 30px;
+}
+
+.order-btn {
+    display: inline-block;
+    background-color: #C6532D;
+    color: white;
+    text-decoration: none;
+    padding: 14px 28px;
+    border-radius: 7px;
+    font-weight: bold;
+}
+
+.order-btn:hover,
+.register-btn:hover {
+    background-color: #A94324;
+}
+
+
+/* ===== CATEGORIES SECTION ===== */
+
+.categories,
+.menu,
+.about {
+    padding: 65px 8%;
+    text-align: center;
+}
+
+.categories h2,
+.menu h2,
+.about h2 {
+    font-size: 32px;
+    margin-bottom: 12px;
+}
+
+.section-description {
+    color: #78675D;
+    margin-bottom: 35px;
+}
+
+.category-container {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 22px;
+}
+
+.category-card {
+    background-color: white;
+    padding: 30px 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+    transition: transform 0.3s;
+}
+
+.category-card:hover {
+    transform: translateY(-6px);
+}
+
+.category-icon {
+    font-size: 42px;
+    margin-bottom: 15px;
+}
+
+.category-card h3 {
+    font-size: 18px;
+}
+
+
+/* ===== CANTEEN MENU SECTION ===== */
+
+.menu {
+    background-color: #F5E2D3;
+}
+
+.menu-card {
+    max-width: 550px;
+    margin: auto;
+    background-color: white;
+    padding: 35px;
+    border-radius: 12px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.06);
+}
+
+.menu-card h3 {
+    font-size: 24px;
+    margin-bottom: 12px;
+}
+
+.menu-card p {
+    color: #78675D;
+    margin-bottom: 18px;
+}
+
+.availability {
+    color: #27864A;
+    font-weight: bold;
+    font-size: 14px;
+}
+
+
+/* ===== ABOUT SECTION ===== */
+
+.about p {
+    max-width: 700px;
+    margin: 20px auto 0;
+    line-height: 1.8;
+    color: #78675D;
+}
+
+
+/* ===== FOOTER ===== */
+
+footer {
+    background-color: #382820;
+    color: white;
+    text-align: center;
+    padding: 22px;
+}
+
+
+/* ===== RESPONSIVE DESIGN ===== */
+
+@media (max-width: 768px) {
+
+    .navbar {
+        flex-wrap: wrap;
+        gap: 20px;
+    }
+
+    .nav-links {
+        flex-wrap: wrap;
+        gap: 15px;
+    }
+
+    .hero h1 {
+        font-size: 34px;
+    }
+
+    .category-container {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+}
+
+@media (max-width: 450px) {
+
+    .category-container {
+        grid-template-columns: 1fr;
+    }
+
+}
