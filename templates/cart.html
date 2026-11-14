@@ -1,0 +1,101 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Cart | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">Smart<span>Canteen.</span></div>
+
+            <div class="nav-buttons">
+                <a href="/dashboard" class="login-btn">Continue Shopping</a>
+                <a href="/logout" class="register-btn">Logout</a>
+            </div>
+
+        </nav>
+    </header>
+
+    <section class="cart-section">
+
+        <h1>My Shopping Cart 🛒</h1>
+
+        {% if cart_items %}
+
+            {% for item in cart_items %}
+
+            <div class="cart-item">
+
+                <div>
+                    <h3>{{ item.item_name }}</h3>
+                    <p>Price: ₹{{ item.price }}</p>
+                    <p>Subtotal: ₹{{ item.subtotal }}</p>
+                </div>
+
+                <form action="{{ url_for('update_cart', item_id=item.item_id) }}"
+                      method="POST">
+
+                    <label>Quantity:</label>
+
+                    <input type="number"
+                           name="quantity"
+                           value="{{ item.quantity }}"
+                           min="1"
+                           max="20"
+                           required>
+
+                    <button type="submit">Update</button>
+
+                </form>
+
+                <form action="{{ url_for('remove_from_cart', item_id=item.item_id) }}"
+                      method="POST">
+
+                    <button type="submit" class="remove-btn">
+                        Remove
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% endfor %}
+
+            <div class="cart-total">
+
+                <h2>Total Bill: ₹{{ total }}</h2>
+
+                <a href="/checkout" class="checkout-btn">
+                    Proceed to Checkout →
+                </a>
+
+            </div>
+
+        {% else %}
+
+            <div class="empty-cart">
+                <h2>Your cart is empty!</h2>
+                <p>Add some delicious food to continue.</p>
+
+                <a href="/dashboard" class="checkout-btn">
+                    Explore Menu
+                </a>
+            </div>
+
+        {% endif %}
+
+    </section>
+
+</body>
+</html>

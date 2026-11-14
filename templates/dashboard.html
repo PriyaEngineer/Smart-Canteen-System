@@ -1,0 +1,92 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Student Dashboard | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+
+            <div class="logo">
+                Smart<span>Canteen.</span>
+            </div>
+
+            <div class="nav-buttons">
+                <a href="/cart" class="login-btn">My Cart</a>
+                <a href="/logout" class="register-btn">Logout</a>
+            </div>
+
+        </nav>
+    </header>
+
+    <section class="dashboard-welcome">
+
+        <h1>Welcome, {{ student_name }}! 👋</h1>
+
+        <p>
+            Explore the menu and choose your favourite food.
+        </p>
+
+    </section>
+
+    <section class="menu">
+
+        <h2>Tiwari Uncle's Canteen</h2>
+
+        <p class="section-description">
+            Fresh food, delicious taste and easy ordering.
+        </p>
+
+        <h2>Available Food Menu</h2>
+
+        <div class="food-container">
+
+            {% for item in menu_items %}
+
+            <div class="food-card">
+
+                <h3>{{ item.item_name }}</h3>
+
+                <p>{{ item.description }}</p>
+
+                <h4>₹{{ item.price }}</h4>
+
+                <span>{{ item.category }}</span>
+
+                <form action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
+                      method="POST">
+
+                    <button type="submit" class="add-cart-btn">
+                        Add to Cart +
+                    </button>
+
+                </form>
+
+            </div>
+
+            {% else %}
+
+            <p>No food items are available right now.</p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
+
+    <footer>
+        <p>© 2026 Smart Canteen | Tiwari Uncle's Canteen</p>
+    </footer>
+
+</body>
+</html>

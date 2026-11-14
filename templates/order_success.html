@@ -1,0 +1,51 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Order Placed | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <section class="order-success">
+
+        <div class="success-icon">✓</div>
+
+        <h1>Order Placed Successfully!</h1>
+
+        <p>Thank you for ordering from Tiwari Uncle's Canteen.</p>
+
+        <div class="order-details">
+
+            <h3>Order Details</h3>
+
+            <p>Order ID: #{{ order_id }}</p>
+
+            <p>Total Amount: ₹{{ total }}</p>
+
+            <p>
+                Pickup Time:
+                {{ pickup_time.strftime('%d-%m-%Y %I:%M %p') }}
+            </p>
+
+            <p>Order Status: Pending</p>
+
+            <p>Payment: Pay at Canteen Counter</p>
+
+        </div>
+
+        <a href="/dashboard" class="checkout-btn">
+            Back to Dashboard
+        </a>
+
+    </section>
+
+</body>
+</html>

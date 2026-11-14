@@ -27,10 +27,33 @@
                 <li><a href="#about">About</a></li>
             </ul>
 
-            <div class="nav-buttons">
-                <a href="#" class="login-btn">Login</a>
-                <a href="#" class="register-btn">Register</a>
-            </div>
+          
+<div class="nav-buttons">
+
+    {% if session.get('user_id') %}
+
+        <a href="/dashboard" class="login-btn">
+            My Dashboard
+        </a>
+
+        <a href="/logout" class="register-btn">
+            Logout
+        </a>
+
+    {% else %}
+
+        <a href="/login" class="login-btn">
+            Login
+        </a>
+
+        <a href="/register" class="register-btn">
+            Register
+        </a>
+
+    {% endif %}
+
+</div>
+
 
         </nav>
     </header>
@@ -99,25 +122,47 @@
     <!-- Menu Section -->
     <section class="menu" id="menu">
 
-        <h2>Our Canteen</h2>
+    <h2>Our Canteen</h2>
 
-        <p class="section-description">
-            Fresh food, delicious taste and easy ordering.
-        </p>
+    <p class="section-description">
+        Fresh food, delicious taste and easy ordering.
+    </p>
 
-        <div class="menu-card">
+    <div class="menu-card">
 
-            <h3>Tiwari Uncle's Canteen</h3>
+        <h3>Tiwari Uncle's Canteen</h3>
 
-            <p>
-                Your favourite campus food destination.
-            </p>
+        <p>Your favourite campus food destination.</p>
 
-            <span class="availability">● Available for Orders</span>
+        <span class="availability">● Available for Orders</span>
+
+    </div>
+
+    <h2>Our Food Menu</h2>
+
+    <div class="food-container">
+
+        {% for item in menu_items %}
+
+        <div class="food-card">
+
+            <h3>{{ item.item_name }}</h3>
+
+            <p>{{ item.description }}</p>
+
+            <h4>₹{{ item.price }}</h4>
+
+            <span>{{ item.category }}</span>
+
+            <p>Available: {{ 'Yes' if item.is_available else 'No' }}</p>
 
         </div>
 
-    </section>
+        {% endfor %}
+
+    </div>
+
+</section>
 
 
     <!-- About Section -->

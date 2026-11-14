@@ -1,0 +1,77 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Checkout | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body>
+
+    <header>
+        <nav class="navbar">
+            <div class="logo">Smart<span>Canteen.</span></div>
+
+            <div class="nav-buttons">
+                <a href="/cart" class="login-btn">Back to Cart</a>
+            </div>
+        </nav>
+    </header>
+
+    <section class="checkout-section">
+
+        <h1>Checkout</h1>
+
+        {% if error %}
+            <p class="login-error">{{ error }}</p>
+            <a href="/cart">Return to Cart</a>
+        {% else %}
+
+            <h2>Order Summary</h2>
+
+            {% for item in cart_items %}
+
+            <div class="checkout-item">
+                <span>{{ item.item_name }} × {{ item.quantity }}</span>
+                <strong>₹{{ item.subtotal }}</strong>
+            </div>
+
+            {% endfor %}
+
+            <h2 class="checkout-total">
+                Total: ₹{{ total }}
+            </h2>
+
+            <form action="/place-order" method="POST">
+
+                <label for="pickup_time">
+                    Select Pickup Date and Time
+                </label>
+
+                <input type="datetime-local"
+                       id="pickup_time"
+                       name="pickup_time"
+                       required>
+
+                <p class="payment-note">
+                    Payment will be made at the canteen counter.
+                </p>
+
+                <button type="submit" class="checkout-btn">
+                    Place My Order
+                </button>
+
+            </form>
+
+        {% endif %}
+
+    </section>
+
+</body>
+</html>

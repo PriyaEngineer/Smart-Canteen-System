@@ -1,0 +1,85 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Join IGDTUW Campus Canteen</title>
+
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+
+<body class="register-page">
+
+    <div class="register-container">
+
+        <!-- Left Branding Section -->
+        <div class="register-brand">
+
+            <span class="campus-tag">IGDTUW CAMPUS LIFE</span>
+
+            <h1>IGDTUW's<br>Campus Canteen</h1>
+
+            <p class="brand-tagline">
+                Your Campus. Your Cravings. Your Canteen.
+            </p>
+
+            <div class="food-illustration">
+                🍔 🍟 🥪 ☕
+            </div>
+
+            <p class="brand-description">
+                Good food, great friends and unforgettable campus moments.
+            </p>
+
+            <p class="canteen-name">Featuring Tiwari Uncle's Canteen</p>
+
+        </div>
+
+
+        <!-- Right Registration Form -->
+        <div class="register-form-section">
+
+            <a href="/" class="back-home">← Back to Home</a>
+
+            <div class="form-heading">
+                <h2>Create Account</h2>
+                <p>Join the campus food community!</p>
+            </div>
+
+            <form action="/register" method="POST">
+
+                <label>Full Name</label>
+                <input type="text" name="name"
+                       placeholder="Enter your full name" required>
+
+                <label>College ID</label>
+                <input type="text" name="college_id"
+                       placeholder="Enter your college ID" required>
+
+                <label>Email Address</label>
+                <input type="email" name="email"
+                       placeholder="Enter your email" required>
+
+                <label>Password</label>
+                <input type="password" name="password"
+                       placeholder="Create a password" required>
+
+                <label>Confirm Password</label>
+                <input type="password" name="confirm_password"
+                       placeholder="Confirm your password" required>
+
+                <button type="submit">Create My Account →</button>
+
+            </form>
+
+            <p class="form-footer">
+                Made for IGDTUW students ❤️
+            </p>
+
+        </div>
+
+    </div>
+
+</body>
+</html>
