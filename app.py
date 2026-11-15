@@ -1,3 +1,4 @@
+import os
 
 from flask import Flask, render_template, request, redirect, url_for, session
 from db import get_db_connection
@@ -5,9 +6,14 @@ from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
 from decimal import Decimal
 
+
 app = Flask(__name__)
 
-app.secret_key = "smart_canteen_dev_secret_2026"
+# SECRET KEY CONFIGURATION
+app.secret_key = os.getenv("SECRET_KEY")
+
+if not app.secret_key:
+    raise RuntimeError("SECRET_KEY is not configured in environment variables.")
 
 
 # HOME PAGE
@@ -20,6 +26,7 @@ def home():
     cursor.execute(
         "SELECT * FROM menu_items WHERE is_available = TRUE"
     )
+
     menu_items = cursor.fetchall()
 
     cursor.close()
@@ -54,17 +61,22 @@ def register():
         """
 
         try:
+
             cursor.execute(
                 query,
                 (name, college_id, email, hashed_password)
             )
+
             connection.commit()
 
         except Exception:
+
             connection.rollback()
+
             return "College ID or Email already registered!"
 
         finally:
+
             cursor.close()
             connection.close()
 
@@ -93,6 +105,7 @@ def admin_login():
         """
 
         cursor.execute(query, (identifier, identifier))
+
         admin = cursor.fetchone()
 
         cursor.close()
@@ -111,6 +124,7 @@ def admin_login():
         )
 
     return render_template('admin_login.html')
+
 
 # ADMIN DASHBOARD
 @app.route('/admin/dashboard')
@@ -138,6 +152,7 @@ def admin_dashboard():
     """
 
     cursor.execute(query)
+
     orders = cursor.fetchall()
 
     cursor.close()
@@ -147,6 +162,7 @@ def admin_dashboard():
         'admin_dashboard.html',
         orders=orders
     )
+
 
 # ADMIN ORDER UPDATE
 @app.route('/admin/order/update/<int:order_id>', methods=['POST'])
@@ -165,8 +181,10 @@ def update_order(order_id):
         preparation_time = request.form.get('preparation_time')
 
         if preparation_time not in ['10', '15', '20', '30']:
+
             cursor.close()
             connection.close()
+
             return redirect(url_for('admin_dashboard'))
 
         query = """
@@ -176,7 +194,10 @@ def update_order(order_id):
         WHERE order_id = %s AND status = 'Pending'
         """
 
-        cursor.execute(query, (int(preparation_time), order_id))
+        cursor.execute(
+            query,
+            (int(preparation_time), order_id)
+        )
 
     elif action == 'reject':
 
@@ -219,10 +240,12 @@ def update_order(order_id):
         cursor.execute(query, (order_id,))
 
     connection.commit()
+
     cursor.close()
     connection.close()
 
     return redirect(url_for('admin_dashboard'))
+
 
 # STUDENT LOGIN
 @app.route('/login', methods=['GET', 'POST'])
@@ -244,6 +267,7 @@ def login():
         """
 
         cursor.execute(query, (identifier, identifier))
+
         user = cursor.fetchone()
 
         cursor.close()
@@ -277,6 +301,7 @@ def dashboard():
     cursor.execute(
         "SELECT * FROM menu_items WHERE is_available = TRUE"
     )
+
     menu_items = cursor.fetchall()
 
     cursor.close()
@@ -318,6 +343,7 @@ def my_orders():
     """
 
     cursor.execute(query, (session['user_id'],))
+
     rows = cursor.fetchall()
 
     cursor.close()
@@ -330,6 +356,7 @@ def my_orders():
         order_id = row['order_id']
 
         if order_id not in orders:
+
             orders[order_id] = {
                 'order_id': order_id,
                 'order_date': row['order_date'],
@@ -351,7 +378,8 @@ def my_orders():
         orders=list(orders.values())
     )
 
-# ADD ITEM TO CARTpython app.py
+
+# ADD ITEM TO CART
 @app.route('/cart/add/<int:item_id>', methods=['POST'])
 def add_to_cart(item_id):
 
@@ -378,6 +406,7 @@ def add_to_cart(item_id):
         return redirect(url_for('dashboard'))
 
     cart = session.get('cart', {})
+
     item_key = str(item_id)
 
     current_quantity = cart.get(item_key, 0)
@@ -390,7 +419,6 @@ def add_to_cart(item_id):
     return redirect(url_for('cart'))
 
 
-
 # VIEW CART
 @app.route('/cart')
 def cart():
@@ -399,7 +427,9 @@ def cart():
         return redirect(url_for('login'))
 
     cart_data = session.get('cart', {})
+
     cart_items = []
+
     total = Decimal('0.00')
 
     connection = get_db_connection()
@@ -418,10 +448,13 @@ def cart():
         item = cursor.fetchone()
 
         if item:
+
             item['quantity'] = quantity
+
             item['subtotal'] = item['price'] * quantity
 
             total += item['subtotal']
+
             cart_items.append(item)
 
     cursor.close()
@@ -442,11 +475,15 @@ def update_cart(item_id):
         return redirect(url_for('login'))
 
     try:
+
         quantity = int(request.form['quantity'])
+
     except (ValueError, TypeError):
+
         return redirect(url_for('cart'))
 
     cart = session.get('cart', {})
+
     item_key = str(item_id)
 
     if item_key in cart:
@@ -467,6 +504,7 @@ def remove_from_cart(item_id):
         return redirect(url_for('login'))
 
     cart = session.get('cart', {})
+
     cart.pop(str(item_id), None)
 
     session['cart'] = cart
@@ -487,6 +525,7 @@ def checkout():
         return redirect(url_for('dashboard'))
 
     cart_items = []
+
     total = Decimal('0.00')
 
     connection = get_db_connection()
@@ -505,9 +544,13 @@ def checkout():
         item = cursor.fetchone()
 
         if item:
+
             item['quantity'] = quantity
+
             item['subtotal'] = item['price'] * quantity
+
             total += item['subtotal']
+
             cart_items.append(item)
 
     cursor.close()
@@ -538,6 +581,7 @@ def place_order():
     pickup_value = request.form.get('pickup_time', '')
 
     try:
+
         pickup_time = datetime.strptime(
             pickup_value,
             '%Y-%m-%dT%H:%M'
@@ -547,17 +591,20 @@ def place_order():
             return "Please select a future pickup time."
 
     except ValueError:
+
         return "Please select a valid pickup time."
 
     connection = get_db_connection()
+
     cursor = connection.cursor(dictionary=True)
 
     try:
 
         total = Decimal('0.00')
+
         order_items = []
 
-        # Fetch current prices from database
+        # FETCH CURRENT PRICES FROM DATABASE
         for item_id, quantity in cart_data.items():
 
             if not 1 <= int(quantity) <= 20:
@@ -584,7 +631,7 @@ def place_order():
                 (int(item_id), int(quantity), item['price'])
             )
 
-        # Save order in orders table
+        # SAVE ORDER IN ORDERS TABLE
         cursor.execute(
             """
             INSERT INTO orders (user_id, total_amount, pickup_time)
@@ -595,7 +642,7 @@ def place_order():
 
         order_id = cursor.lastrowid
 
-        # Save individual items in order_items table
+        # SAVE INDIVIDUAL ITEMS IN ORDER_ITEMS TABLE
         for item_id, quantity, price in order_items:
 
             cursor.execute(
@@ -630,6 +677,7 @@ def place_order():
         )
 
     finally:
+
         cursor.close()
         connection.close()
 
@@ -643,24 +691,10 @@ def logout():
     return redirect(url_for('home'))
 
 
+# LOCAL DEVELOPMENT SERVER
 if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
 
-import os
-import mysql.connector
-from dotenv import load_dotenv
-
-load_dotenv(os.path.join(os.path.dirname(__file__), ".env"), override=True)
-
-def get_db_connection():
-    connection = mysql.connector.connect(
-        host=os.getenv("DB_HOST"),
-        port=int(os.getenv("DB_PORT", "3306")),
-        user=os.getenv("DB_USER"),
-        password=os.getenv("DB_PASSWORD"),
-        database=os.getenv("DB_NAME")
+    app.run(
+        debug=False,
+        use_reloader=False
     )
-    return connection
-
-if __name__ == '__main__':
-    app.run(debug=True, use_reloader=False)
