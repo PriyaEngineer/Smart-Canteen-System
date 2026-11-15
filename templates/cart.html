@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,40 +9,312 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7ff;
+            font-family: Arial, sans-serif;
+            color: #173b70;
+        }
+
+        .sc-navbar {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .sc-logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .sc-logo span {
+            color: #2879d8;
+        }
+
+        .sc-nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .sc-nav-links a {
+            text-decoration: none;
+            color: #2879d8;
+            font-weight: 600;
+            padding: 10px 17px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .sc-nav-links a:hover {
+            background: #eaf2ff;
+        }
+
+        .sc-nav-links .sc-logout {
+            background: #2879d8;
+            color: white;
+        }
+
+        .sc-nav-links .sc-logout:hover {
+            background: #173b70;
+        }
+
+        .sc-cart-container {
+            max-width: 1100px;
+            margin: 55px auto;
+            padding: 0 25px;
+        }
+
+        .sc-heading {
+            margin-bottom: 30px;
+        }
+
+        .sc-heading h1 {
+            font-size: 32px;
+            color: #173b70;
+            margin-bottom: 10px;
+        }
+
+        .sc-heading p {
+            color: #7184a3;
+            font-size: 15px;
+        }
+
+        .sc-cart-item {
+            background: white;
+            padding: 25px;
+            margin-bottom: 20px;
+            border-radius: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            box-shadow: 0 5px 20px rgba(31, 75, 130, 0.07);
+            border: 1px solid #e5edfb;
+        }
+
+        .sc-item-info h3 {
+            font-size: 21px;
+            margin: 0 0 12px;
+            color: #173b70;
+        }
+
+        .sc-item-info p {
+            color: #7184a3;
+            margin: 7px 0;
+        }
+
+        .sc-item-info .sc-subtotal {
+            color: #2879d8;
+            font-weight: bold;
+        }
+
+        .sc-quantity-form {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .sc-quantity-form label {
+            color: #173b70;
+            font-weight: 600;
+        }
+
+        .sc-quantity-form input {
+            width: 70px;
+            padding: 10px;
+            border: 1px solid #cbdaf1;
+            border-radius: 8px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .sc-quantity-form input:focus {
+            border-color: #2879d8;
+        }
+
+        .sc-update-btn,
+        .sc-remove-btn {
+            border: none;
+            padding: 11px 18px;
+            border-radius: 8px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sc-update-btn {
+            background: #eaf2ff;
+            color: #2879d8;
+        }
+
+        .sc-update-btn:hover {
+            background: #d7e7ff;
+        }
+
+        .sc-remove-btn {
+            background: #fff0f0;
+            color: #d94a4a;
+        }
+
+        .sc-remove-btn:hover {
+            background: #ffe0e0;
+        }
+
+        .sc-cart-total {
+            background: white;
+            padding: 30px;
+            margin-top: 30px;
+            border-radius: 16px;
+            text-align: right;
+            box-shadow: 0 5px 20px rgba(31, 75, 130, 0.07);
+            border: 1px solid #e5edfb;
+        }
+
+        .sc-cart-total h2 {
+            color: #173b70;
+            margin-bottom: 22px;
+            font-size: 25px;
+        }
+
+        .sc-checkout-btn {
+            display: inline-block;
+            background: #2879d8;
+            color: white;
+            text-decoration: none;
+            padding: 14px 25px;
+            border-radius: 9px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .sc-checkout-btn:hover {
+            background: #173b70;
+            transform: translateY(-2px);
+        }
+
+        .sc-empty-cart {
+            background: white;
+            padding: 65px 25px;
+            text-align: center;
+            border-radius: 18px;
+            box-shadow: 0 5px 20px rgba(31, 75, 130, 0.07);
+            border: 1px solid #e5edfb;
+        }
+
+        .sc-empty-cart .sc-empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .sc-empty-cart h2 {
+            color: #173b70;
+            margin-bottom: 12px;
+        }
+
+        .sc-empty-cart p {
+            color: #7184a3;
+            margin-bottom: 25px;
+        }
+
+        .sc-footer {
+            text-align: center;
+            padding: 25px;
+            color: #8292aa;
+            font-size: 14px;
+        }
+
+        @media (max-width: 700px) {
+
+            .sc-navbar {
+                padding: 18px 5%;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .sc-cart-item {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            .sc-quantity-form {
+                flex-wrap: wrap;
+            }
+
+            .sc-cart-total {
+                text-align: center;
+            }
+
+            .sc-heading h1 {
+                font-size: 26px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <header>
-        <nav class="navbar">
+        <nav class="sc-navbar">
 
-            <div class="logo">Smart<span>Canteen.</span></div>
+            <div class="sc-logo">
+                Smart<span>Canteen.</span>
+            </div>
 
-            <div class="nav-buttons">
-                <a href="/dashboard" class="login-btn">Continue Shopping</a>
-                <a href="/logout" class="register-btn">Logout</a>
+            <div class="sc-nav-links">
+                <a href="/dashboard">Continue Shopping</a>
+                <a href="/orders">My Orders</a>
+                <a href="/logout" class="sc-logout">Logout</a>
             </div>
 
         </nav>
     </header>
 
-    <section class="cart-section">
 
-        <h1>My Shopping Cart 🛒</h1>
+    <!-- CART SECTION -->
+    <section class="sc-cart-container">
+
+        <div class="sc-heading">
+            <h1>My Shopping Cart 🛒</h1>
+            <p>Review your selected items before placing your order.</p>
+        </div>
+
 
         {% if cart_items %}
 
             {% for item in cart_items %}
 
-            <div class="cart-item">
+            <div class="sc-cart-item">
 
-                <div>
+                <!-- ITEM DETAILS -->
+                <div class="sc-item-info">
+
                     <h3>{{ item.item_name }}</h3>
+
                     <p>Price: ₹{{ item.price }}</p>
-                    <p>Subtotal: ₹{{ item.subtotal }}</p>
+
+                    <p class="sc-subtotal">
+                        Subtotal: ₹{{ item.subtotal }}
+                    </p>
+
                 </div>
 
-                <form action="{{ url_for('update_cart', item_id=item.item_id) }}"
+
+                <!-- UPDATE QUANTITY -->
+                <form class="sc-quantity-form"
+                      action="{{ url_for('update_cart', item_id=item.item_id) }}"
                       method="POST">
 
                     <label>Quantity:</label>
@@ -55,15 +326,19 @@
                            max="20"
                            required>
 
-                    <button type="submit">Update</button>
+                    <button type="submit" class="sc-update-btn">
+                        Update
+                    </button>
 
                 </form>
 
+
+                <!-- REMOVE ITEM -->
                 <form action="{{ url_for('remove_from_cart', item_id=item.item_id) }}"
                       method="POST">
 
-                    <button type="submit" class="remove-btn">
-                        Remove
+                    <button type="submit" class="sc-remove-btn">
+                        Remove ✕
                     </button>
 
                 </form>
@@ -72,30 +347,48 @@
 
             {% endfor %}
 
-            <div class="cart-total">
+
+            <!-- TOTAL BILL -->
+            <div class="sc-cart-total">
 
                 <h2>Total Bill: ₹{{ total }}</h2>
 
-                <a href="/checkout" class="checkout-btn">
+                <a href="/checkout" class="sc-checkout-btn">
                     Proceed to Checkout →
                 </a>
 
             </div>
 
+
         {% else %}
 
-            <div class="empty-cart">
-                <h2>Your cart is empty!</h2>
-                <p>Add some delicious food to continue.</p>
+            <!-- EMPTY CART -->
+            <div class="sc-empty-cart">
 
-                <a href="/dashboard" class="checkout-btn">
-                    Explore Menu
+                <div class="sc-empty-icon">🛒</div>
+
+                <h2>Your Cart is Empty!</h2>
+
+                <p>
+                    Looks like you haven't added anything to your cart yet.
+                    Explore our menu and find something delicious!
+                </p>
+
+                <a href="/dashboard" class="sc-checkout-btn">
+                    Explore Menu →
                 </a>
+
             </div>
 
         {% endif %}
 
     </section>
+
+
+    <!-- FOOTER -->
+    <footer class="sc-footer">
+        © 2026 Smart Canteen | Tiwari Uncle's Canteen
+    </footer>
 
 </body>
 </html>

@@ -73,6 +73,157 @@ def register():
     return render_template('register.html')
 
 
+# ADMIN LOGIN
+@app.route('/admin/login', methods=['GET', 'POST'])
+def admin_login():
+
+    if request.method == 'POST':
+
+        identifier = request.form['identifier']
+        password = request.form['password']
+
+        connection = get_db_connection()
+        cursor = connection.cursor(dictionary=True)
+
+        query = """
+        SELECT * FROM users
+        WHERE (college_id = %s OR email = %s)
+        AND role = 'admin'
+        LIMIT 1
+        """
+
+        cursor.execute(query, (identifier, identifier))
+        admin = cursor.fetchone()
+
+        cursor.close()
+        connection.close()
+
+        if admin and check_password_hash(admin['password'], password):
+
+            session['admin_id'] = admin['user_id']
+            session['admin_name'] = admin['name']
+
+            return redirect(url_for('admin_dashboard'))
+
+        return render_template(
+            'admin_login.html',
+            error="Invalid Admin ID/Email or Password!"
+        )
+
+    return render_template('admin_login.html')
+
+# ADMIN DASHBOARD
+@app.route('/admin/dashboard')
+def admin_dashboard():
+
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    query = """
+    SELECT
+        o.order_id,
+        o.order_date,
+        o.total_amount,
+        o.status,
+        o.preparation_time,
+        o.pickup_time,
+        u.name AS student_name,
+        u.college_id
+    FROM orders o
+    JOIN users u ON o.user_id = u.user_id
+    ORDER BY o.order_date DESC
+    """
+
+    cursor.execute(query)
+    orders = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    return render_template(
+        'admin_dashboard.html',
+        orders=orders
+    )
+
+# ADMIN ORDER UPDATE
+@app.route('/admin/order/update/<int:order_id>', methods=['POST'])
+def update_order(order_id):
+
+    if 'admin_id' not in session:
+        return redirect(url_for('admin_login'))
+
+    action = request.form.get('action')
+
+    connection = get_db_connection()
+    cursor = connection.cursor()
+
+    if action == 'accept':
+
+        preparation_time = request.form.get('preparation_time')
+
+        if preparation_time not in ['10', '15', '20', '30']:
+            cursor.close()
+            connection.close()
+            return redirect(url_for('admin_dashboard'))
+
+        query = """
+        UPDATE orders
+        SET status = 'Accepted',
+            preparation_time = %s
+        WHERE order_id = %s AND status = 'Pending'
+        """
+
+        cursor.execute(query, (int(preparation_time), order_id))
+
+    elif action == 'reject':
+
+        query = """
+        UPDATE orders
+        SET status = 'Rejected'
+        WHERE order_id = %s AND status = 'Pending'
+        """
+
+        cursor.execute(query, (order_id,))
+
+    elif action == 'preparing':
+
+        query = """
+        UPDATE orders
+        SET status = 'Preparing'
+        WHERE order_id = %s AND status = 'Accepted'
+        """
+
+        cursor.execute(query, (order_id,))
+
+    elif action == 'ready':
+
+        query = """
+        UPDATE orders
+        SET status = 'Ready for Pickup'
+        WHERE order_id = %s AND status = 'Preparing'
+        """
+
+        cursor.execute(query, (order_id,))
+
+    elif action == 'completed':
+
+        query = """
+        UPDATE orders
+        SET status = 'Completed'
+        WHERE order_id = %s AND status = 'Ready for Pickup'
+        """
+
+        cursor.execute(query, (order_id,))
+
+    connection.commit()
+    cursor.close()
+    connection.close()
+
+    return redirect(url_for('admin_dashboard'))
+
 # STUDENT LOGIN
 @app.route('/login', methods=['GET', 'POST'])
 def login():
@@ -137,6 +288,68 @@ def dashboard():
         menu_items=menu_items
     )
 
+
+# STUDENT MY ORDERS
+@app.route('/orders')
+def my_orders():
+
+    if 'user_id' not in session:
+        return redirect(url_for('login'))
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    query = """
+    SELECT
+        o.order_id,
+        o.order_date,
+        o.total_amount,
+        o.status,
+        o.pickup_time,
+        o.preparation_time,
+        oi.quantity,
+        oi.price,
+        mi.item_name
+    FROM orders o
+    JOIN order_items oi ON o.order_id = oi.order_id
+    JOIN menu_items mi ON oi.item_id = mi.item_id
+    WHERE o.user_id = %s
+    ORDER BY o.order_date DESC, o.order_id DESC
+    """
+
+    cursor.execute(query, (session['user_id'],))
+    rows = cursor.fetchall()
+
+    cursor.close()
+    connection.close()
+
+    orders = {}
+
+    for row in rows:
+
+        order_id = row['order_id']
+
+        if order_id not in orders:
+            orders[order_id] = {
+                'order_id': order_id,
+                'order_date': row['order_date'],
+                'total_amount': row['total_amount'],
+                'status': row['status'],
+                'pickup_time': row['pickup_time'],
+                'preparation_time': row['preparation_time'],
+                'items': []
+            }
+
+        orders[order_id]['items'].append({
+            'item_name': row['item_name'],
+            'quantity': row['quantity'],
+            'price': row['price']
+        })
+
+    return render_template(
+        'my_orders.html',
+        orders=list(orders.values())
+    )
 
 # ADD ITEM TO CARTpython app.py
 @app.route('/cart/add/<int:item_id>', methods=['POST'])

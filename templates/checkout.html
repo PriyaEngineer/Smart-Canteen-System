@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,68 +9,350 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7ff;
+            font-family: Arial, sans-serif;
+            color: #173b70;
+        }
+
+        .sc-navbar {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .sc-logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .sc-logo span {
+            color: #2879d8;
+        }
+
+        .sc-back-btn {
+            text-decoration: none;
+            background: #eaf2ff;
+            color: #2879d8;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .sc-back-btn:hover {
+            background: #d7e7ff;
+        }
+
+        .sc-checkout-container {
+            max-width: 750px;
+            margin: 55px auto;
+            padding: 0 20px;
+        }
+
+        .sc-checkout-card {
+            background: white;
+            padding: 35px;
+            border-radius: 18px;
+            border: 1px solid #e5edfb;
+            box-shadow: 0 5px 25px rgba(31, 75, 130, 0.08);
+        }
+
+        .sc-heading {
+            margin-bottom: 30px;
+        }
+
+        .sc-heading h1 {
+            font-size: 32px;
+            color: #173b70;
+            margin-bottom: 10px;
+        }
+
+        .sc-heading p {
+            color: #7184a3;
+            font-size: 15px;
+        }
+
+        .sc-section-title {
+            font-size: 21px;
+            color: #173b70;
+            margin: 25px 0 18px;
+        }
+
+        .sc-checkout-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 0;
+            border-bottom: 1px solid #eaf0fa;
+            gap: 15px;
+        }
+
+        .sc-item-name {
+            color: #526b91;
+            font-size: 16px;
+        }
+
+        .sc-item-price {
+            color: #2879d8;
+            font-weight: bold;
+            font-size: 16px;
+        }
+
+        .sc-checkout-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            background: #edf4ff;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 25px 0;
+        }
+
+        .sc-checkout-total h2 {
+            margin: 0;
+            font-size: 20px;
+            color: #173b70;
+        }
+
+        .sc-checkout-total span {
+            font-size: 23px;
+            font-weight: bold;
+            color: #2879d8;
+        }
+
+        .sc-pickup-section {
+            margin-top: 30px;
+        }
+
+        .sc-pickup-section label {
+            display: block;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: #173b70;
+        }
+
+        .sc-pickup-section input {
+            width: 100%;
+            padding: 14px;
+            border: 1px solid #cbdaf1;
+            border-radius: 9px;
+            font-size: 15px;
+            outline: none;
+        }
+
+        .sc-pickup-section input:focus {
+            border-color: #2879d8;
+        }
+
+        .sc-payment-note {
+            background: #f0f6ff;
+            color: #52719c;
+            padding: 15px;
+            border-radius: 9px;
+            margin: 22px 0;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+
+        .sc-place-order-btn {
+            width: 100%;
+            padding: 15px;
+            border: none;
+            border-radius: 9px;
+            background: #2879d8;
+            color: white;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sc-place-order-btn:hover {
+            background: #173b70;
+            transform: translateY(-2px);
+        }
+
+        .sc-error-box {
+            background: #fff0f0;
+            border: 1px solid #ffd1d1;
+            color: #d94a4a;
+            padding: 16px;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+        .sc-return-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #2879d8;
+            color: white;
+            padding: 12px 20px;
+            border-radius: 8px;
+            font-weight: bold;
+        }
+
+        .sc-footer {
+            text-align: center;
+            padding: 25px;
+            color: #8292aa;
+            font-size: 14px;
+        }
+
+        @media (max-width: 600px) {
+
+            .sc-navbar {
+                padding: 18px 5%;
+            }
+
+            .sc-checkout-card {
+                padding: 23px;
+            }
+
+            .sc-heading h1 {
+                font-size: 27px;
+            }
+
+            .sc-checkout-total h2 {
+                font-size: 17px;
+            }
+
+            .sc-checkout-total span {
+                font-size: 20px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
+    <!-- NAVBAR -->
     <header>
-        <nav class="navbar">
-            <div class="logo">Smart<span>Canteen.</span></div>
+        <nav class="sc-navbar">
 
-            <div class="nav-buttons">
-                <a href="/cart" class="login-btn">Back to Cart</a>
+            <div class="sc-logo">
+                Smart<span>Canteen.</span>
             </div>
+
+            <a href="/cart" class="sc-back-btn">
+                ← Back to Cart
+            </a>
+
         </nav>
     </header>
 
-    <section class="checkout-section">
 
-        <h1>Checkout</h1>
+    <!-- CHECKOUT -->
+    <section class="sc-checkout-container">
 
-        {% if error %}
-            <p class="login-error">{{ error }}</p>
-            <a href="/cart">Return to Cart</a>
-        {% else %}
+        <div class="sc-checkout-card">
 
-            <h2>Order Summary</h2>
-
-            {% for item in cart_items %}
-
-            <div class="checkout-item">
-                <span>{{ item.item_name }} × {{ item.quantity }}</span>
-                <strong>₹{{ item.subtotal }}</strong>
+            <div class="sc-heading">
+                <h1>Checkout 🛍️</h1>
+                <p>Almost there! Review your order before confirming.</p>
             </div>
 
-            {% endfor %}
 
-            <h2 class="checkout-total">
-                Total: ₹{{ total }}
-            </h2>
+            {% if error %}
 
-            <form action="/place-order" method="POST">
+                <div class="sc-error-box">
+                    <strong>Something went wrong!</strong>
+                    <p>{{ error }}</p>
+                </div>
 
-                <label for="pickup_time">
-                    Select Pickup Date and Time
-                </label>
+                <a href="/cart" class="sc-return-btn">
+                    Return to Cart
+                </a>
 
-                <input type="datetime-local"
-                       id="pickup_time"
-                       name="pickup_time"
-                       required>
 
-                <p class="payment-note">
-                    Payment will be made at the canteen counter.
-                </p>
+            {% else %}
 
-                <button type="submit" class="checkout-btn">
-                    Place My Order
-                </button>
+                <!-- ORDER SUMMARY -->
+                <h2 class="sc-section-title">
+                    Order Summary
+                </h2>
 
-            </form>
+                {% for item in cart_items %}
 
-        {% endif %}
+                <div class="sc-checkout-item">
+
+                    <span class="sc-item-name">
+                        {{ item.item_name }} × {{ item.quantity }}
+                    </span>
+
+                    <strong class="sc-item-price">
+                        ₹{{ item.subtotal }}
+                    </strong>
+
+                </div>
+
+                {% endfor %}
+
+
+                <!-- TOTAL -->
+                <div class="sc-checkout-total">
+
+                    <h2>Total Amount</h2>
+
+                    <span>₹{{ total }}</span>
+
+                </div>
+
+
+                <!-- PICKUP TIME -->
+                <form action="/place-order" method="POST">
+
+                    <div class="sc-pickup-section">
+
+                        <label for="pickup_time">
+                            Select Pickup Date and Time
+                        </label>
+
+                        <input type="datetime-local"
+                               id="pickup_time"
+                               name="pickup_time"
+                               required>
+
+                    </div>
+
+
+                    <!-- PAYMENT INFORMATION -->
+                    <div class="sc-payment-note">
+                        💳 <strong>Payment Information</strong><br>
+                        Payment will be made at the canteen counter.
+                        No online payment is required.
+                    </div>
+
+
+                    <!-- PLACE ORDER -->
+                    <button type="submit" class="sc-place-order-btn">
+                        Confirm & Place My Order →
+                    </button>
+
+                </form>
+
+            {% endif %}
+
+        </div>
 
     </section>
+
+
+    <!-- FOOTER -->
+    <footer class="sc-footer">
+        © 2026 Smart Canteen | Tiwari Uncle's Canteen
+    </footer>
 
 </body>
 </html>

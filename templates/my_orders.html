@@ -1,0 +1,549 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>My Orders | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            background: #f4f7ff;
+            font-family: Arial, sans-serif;
+            color: #173b70;
+        }
+
+        .sc-navbar {
+            background: white;
+            padding: 20px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0, 0, 0, 0.06);
+        }
+
+        .sc-logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .sc-logo span {
+            color: #2879d8;
+        }
+
+        .sc-nav-links {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sc-nav-links a {
+            text-decoration: none;
+            color: #2879d8;
+            font-weight: 600;
+            padding: 10px 16px;
+            border-radius: 8px;
+            transition: 0.3s;
+        }
+
+        .sc-nav-links a:hover {
+            background: #eaf2ff;
+        }
+
+        .sc-nav-links .sc-logout {
+            background: #2879d8;
+            color: white;
+        }
+
+        .sc-nav-links .sc-logout:hover {
+            background: #173b70;
+        }
+
+        .sc-welcome {
+            margin: 35px 8%;
+            padding: 35px;
+            border-radius: 18px;
+            background: linear-gradient(120deg, #173b70, #368be5);
+            color: white;
+            box-shadow: 0 8px 25px rgba(40, 121, 216, 0.15);
+        }
+
+        .sc-welcome h1 {
+            font-size: 32px;
+            margin: 0 0 12px;
+        }
+
+        .sc-welcome p {
+            margin: 0;
+            font-size: 16px;
+            color: #e5efff;
+            line-height: 1.6;
+        }
+
+        .sc-orders-container {
+            max-width: 1100px;
+            margin: 50px auto;
+            padding: 0 25px;
+        }
+
+        .sc-section-heading {
+            margin-bottom: 25px;
+        }
+
+        .sc-section-heading h2 {
+            font-size: 27px;
+            color: #173b70;
+            margin-bottom: 8px;
+        }
+
+        .sc-section-heading p {
+            color: #7184a3;
+        }
+
+        .sc-order-card {
+            background: white;
+            border: 1px solid #e5edfb;
+            border-radius: 16px;
+            padding: 28px;
+            margin-bottom: 25px;
+            box-shadow: 0 5px 20px rgba(31, 75, 130, 0.07);
+        }
+
+        .sc-order-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+            flex-wrap: wrap;
+            padding-bottom: 18px;
+            border-bottom: 1px solid #eaf0fa;
+        }
+
+        .sc-order-header h3 {
+            font-size: 22px;
+            margin: 0;
+            color: #173b70;
+        }
+
+        .sc-status {
+            display: inline-block;
+            padding: 9px 16px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .sc-pending {
+            background: #fff5d9;
+            color: #a87500;
+        }
+
+        .sc-accepted {
+            background: #e5f0ff;
+            color: #2879d8;
+        }
+
+        .sc-preparing {
+            background: #f0eaff;
+            color: #7952bd;
+        }
+
+        .sc-ready {
+            background: #e2f8ed;
+            color: #188653;
+        }
+
+        .sc-completed {
+            background: #dff5e8;
+            color: #167746;
+        }
+
+        .sc-rejected {
+            background: #ffe8e8;
+            color: #d64545;
+        }
+
+        .sc-order-details {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr);
+            gap: 18px;
+            padding: 22px 0;
+        }
+
+        .sc-detail-box {
+            background: #f5f8ff;
+            padding: 15px;
+            border-radius: 10px;
+        }
+
+        .sc-detail-box span {
+            display: block;
+            color: #7184a3;
+            font-size: 13px;
+            margin-bottom: 7px;
+        }
+
+        .sc-detail-box strong {
+            color: #173b70;
+            font-size: 15px;
+        }
+
+        .sc-items-section {
+            border-top: 1px solid #eaf0fa;
+            padding-top: 20px;
+        }
+
+        .sc-items-section h4 {
+            font-size: 18px;
+            margin: 0 0 15px;
+            color: #173b70;
+        }
+
+        .sc-ordered-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 11px 0;
+            border-bottom: 1px dashed #e0e9f7;
+            color: #526b91;
+            gap: 12px;
+        }
+
+        .sc-ordered-item strong {
+            color: #2879d8;
+        }
+
+        .sc-order-total {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 20px;
+            padding: 17px;
+            background: #edf4ff;
+            border-radius: 10px;
+        }
+
+        .sc-order-total h3 {
+            margin: 0;
+            color: #173b70;
+            font-size: 19px;
+        }
+
+        .sc-order-total strong {
+            color: #2879d8;
+            font-size: 21px;
+        }
+
+        .sc-status-message {
+            margin-top: 18px;
+            padding: 15px;
+            border-radius: 9px;
+            background: #f0f6ff;
+            color: #526b91;
+            line-height: 1.5;
+            font-size: 14px;
+        }
+
+        .sc-empty-orders {
+            background: white;
+            text-align: center;
+            padding: 65px 25px;
+            border-radius: 18px;
+            border: 1px solid #e5edfb;
+            box-shadow: 0 5px 20px rgba(31, 75, 130, 0.07);
+        }
+
+        .sc-empty-icon {
+            font-size: 55px;
+            margin-bottom: 15px;
+        }
+
+        .sc-empty-orders h2 {
+            color: #173b70;
+            margin-bottom: 10px;
+        }
+
+        .sc-empty-orders p {
+            color: #7184a3;
+            margin-bottom: 25px;
+        }
+
+        .sc-menu-btn {
+            display: inline-block;
+            text-decoration: none;
+            background: #2879d8;
+            color: white;
+            padding: 13px 23px;
+            border-radius: 9px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .sc-menu-btn:hover {
+            background: #173b70;
+            transform: translateY(-2px);
+        }
+
+        .sc-footer {
+            text-align: center;
+            padding: 25px;
+            color: #8292aa;
+            font-size: 14px;
+        }
+
+        @media (max-width: 650px) {
+
+            .sc-navbar {
+                padding: 18px 5%;
+                flex-direction: column;
+                gap: 15px;
+            }
+
+            .sc-welcome {
+                margin: 25px 5%;
+                padding: 25px;
+            }
+
+            .sc-welcome h1 {
+                font-size: 26px;
+            }
+
+            .sc-order-details {
+                grid-template-columns: 1fr;
+            }
+
+            .sc-order-card {
+                padding: 20px;
+            }
+
+            .sc-order-total h3 {
+                font-size: 16px;
+            }
+
+            .sc-order-total strong {
+                font-size: 18px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <!-- NAVBAR -->
+    <header>
+        <nav class="sc-navbar">
+
+            <div class="sc-logo">
+                Smart<span>Canteen.</span>
+            </div>
+
+            <div class="sc-nav-links">
+                <a href="/dashboard">Menu</a>
+                <a href="/cart">My Cart</a>
+                <a href="/logout" class="sc-logout">Logout</a>
+            </div>
+
+        </nav>
+    </header>
+
+
+    <!-- WELCOME SECTION -->
+    <section class="sc-welcome">
+
+        <h1>My Orders 📦</h1>
+
+        <p>
+            Track your canteen orders and check their current status.
+        </p>
+
+    </section>
+
+
+    <!-- ORDER HISTORY -->
+    <section class="sc-orders-container">
+
+        <div class="sc-section-heading">
+
+            <h2>Your Order History</h2>
+
+            <p>
+                All your placed orders in one place.
+            </p>
+
+        </div>
+
+
+        {% for order in orders %}
+
+        <div class="sc-order-card">
+
+            <!-- ORDER HEADER -->
+            <div class="sc-order-header">
+
+                <h3>Order #{{ order.order_id }}</h3>
+
+                <span class="sc-status
+                    {% if order.status == 'Pending' %}sc-pending
+                    {% elif order.status == 'Accepted' %}sc-accepted
+                    {% elif order.status == 'Preparing' %}sc-preparing
+                    {% elif order.status == 'Ready for Pickup' %}sc-ready
+                    {% elif order.status == 'Completed' %}sc-completed
+                    {% elif order.status == 'Rejected' %}sc-rejected
+                    {% endif %}">
+
+                    {{ order.status }}
+
+                </span>
+
+            </div>
+
+
+            <!-- ORDER DETAILS -->
+            <div class="sc-order-details">
+
+                <div class="sc-detail-box">
+
+                    <span>Order Date</span>
+
+                    <strong>{{ order.order_date }}</strong>
+
+                </div>
+
+
+                <div class="sc-detail-box">
+
+                    <span>Pickup Time</span>
+
+                    <strong>{{ order.pickup_time }}</strong>
+
+                </div>
+
+
+                {% if order.preparation_time %}
+
+                <div class="sc-detail-box">
+
+                    <span>Preparation Time</span>
+
+                    <strong>{{ order.preparation_time }} minutes</strong>
+
+                </div>
+
+                {% endif %}
+
+            </div>
+
+
+            <!-- ORDERED ITEMS -->
+            <div class="sc-items-section">
+
+                <h4>Ordered Items 🍽️</h4>
+
+                {% for item in order['items'] %}
+
+                <div class="sc-ordered-item">
+
+                    <span>
+                        {{ item.item_name }} × {{ item.quantity }}
+                    </span>
+
+                    <strong>
+                        ₹{{ item.price * item.quantity }}
+                    </strong>
+
+                </div>
+
+                {% endfor %}
+
+
+                <!-- TOTAL -->
+                <div class="sc-order-total">
+
+                    <h3>Total Amount</h3>
+
+                    <strong>₹{{ order.total_amount }}</strong>
+
+                </div>
+
+            </div>
+
+
+            <!-- STATUS MESSAGE -->
+            <div class="sc-status-message">
+
+                {% if order.status == 'Pending' %}
+
+                    ⏳ Your order is waiting for admin approval.
+
+                {% elif order.status == 'Accepted' %}
+
+                    ✅ Your order has been accepted!
+
+                {% elif order.status == 'Preparing' %}
+
+                    👨‍🍳 Your food is being prepared.
+
+                {% elif order.status == 'Ready for Pickup' %}
+
+                    🎉 Your food is ready. Please collect it!
+
+                {% elif order.status == 'Completed' %}
+
+                    ✔️ Order successfully completed!
+
+                {% elif order.status == 'Rejected' %}
+
+                    Unfortunately, your order was rejected.
+
+                {% endif %}
+
+            </div>
+
+        </div>
+
+
+        {% else %}
+
+        <!-- EMPTY ORDERS -->
+        <div class="sc-empty-orders">
+
+            <div class="sc-empty-icon">📦</div>
+
+            <h2>No Orders Yet!</h2>
+
+            <p>
+                You haven't placed any orders yet.
+                Explore our menu and order your favourite food.
+            </p>
+
+            <a href="/dashboard" class="sc-menu-btn">
+                Explore Menu →
+            </a>
+
+        </div>
+
+        {% endfor %}
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <footer class="sc-footer">
+
+        © 2026 Smart Canteen | Tiwari Uncle's Canteen
+
+    </footer>
+
+</body>
+</html>

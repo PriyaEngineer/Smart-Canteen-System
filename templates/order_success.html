@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,38 +9,183 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f3f7fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+            color: #26364a;
+        }
+
+        .sc-success-container {
+            width: 100%;
+            max-width: 520px;
+            background: white;
+            padding: 40px 35px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 8px 30px rgba(30, 70, 120, 0.10);
+        }
+
+        .sc-success-icon {
+            width: 75px;
+            height: 75px;
+            margin: 0 auto 22px;
+            background: #e2f6eb;
+            color: #219653;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 42px;
+            font-weight: bold;
+        }
+
+        .sc-success-container h1 {
+            color: #173b70;
+            font-size: 27px;
+            margin-bottom: 12px;
+        }
+
+        .sc-success-message {
+            color: #68788d;
+            font-size: 15px;
+            line-height: 1.6;
+            margin-bottom: 28px;
+        }
+
+        .sc-order-details {
+            background: #f5f8fd;
+            border: 1px solid #e1eaf5;
+            border-radius: 12px;
+            padding: 22px;
+            text-align: left;
+            margin-bottom: 28px;
+        }
+
+        .sc-order-details h3 {
+            color: #173b70;
+            margin: 0 0 18px;
+            padding-bottom: 12px;
+            border-bottom: 1px solid #dce6f2;
+            font-size: 19px;
+        }
+
+        .sc-order-details p {
+            color: #52647a;
+            font-size: 14px;
+            margin: 13px 0;
+            line-height: 1.5;
+        }
+
+        .sc-order-details strong {
+            color: #26364a;
+        }
+
+        .sc-status {
+            display: inline-block;
+            background: #fff3d6;
+            color: #a66a00;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 13px;
+            font-weight: bold;
+        }
+
+        .sc-payment-note {
+            background: #eaf3ff;
+            color: #245b9e;
+            padding: 12px;
+            border-radius: 8px;
+            font-size: 13px;
+            margin-top: 18px;
+            line-height: 1.5;
+        }
+
+        .sc-dashboard-btn {
+            display: inline-block;
+            width: 100%;
+            background: #2879d8;
+            color: white;
+            padding: 14px 20px;
+            border-radius: 9px;
+            text-decoration: none;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .sc-dashboard-btn:hover {
+            background: #173b70;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .sc-success-container {
+                padding: 30px 20px;
+            }
+
+            .sc-success-container h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
 </head>
 
 <body>
 
-    <section class="order-success">
+    <section class="sc-success-container">
 
-        <div class="success-icon">✓</div>
+        <div class="sc-success-icon">✓</div>
 
         <h1>Order Placed Successfully!</h1>
 
-        <p>Thank you for ordering from Tiwari Uncle's Canteen.</p>
+        <p class="sc-success-message">
+            Thank you for ordering from Tiwari Uncle's Canteen.
+            Your order has been received successfully.
+        </p>
 
-        <div class="order-details">
+        <div class="sc-order-details">
 
             <h3>Order Details</h3>
 
-            <p>Order ID: #{{ order_id }}</p>
-
-            <p>Total Amount: ₹{{ total }}</p>
+            <p>
+                <strong>Order ID:</strong>
+                #{{ order_id }}
+            </p>
 
             <p>
-                Pickup Time:
+                <strong>Total Amount:</strong>
+                ₹{{ total }}
+            </p>
+
+            <p>
+                <strong>Pickup Time:</strong>
                 {{ pickup_time.strftime('%d-%m-%Y %I:%M %p') }}
             </p>
 
-            <p>Order Status: Pending</p>
+            <p>
+                <strong>Order Status:</strong>
+                <span class="sc-status">Pending</span>
+            </p>
 
-            <p>Payment: Pay at Canteen Counter</p>
+            <div class="sc-payment-note">
+                <strong>Payment:</strong> Pay at Canteen Counter
+            </div>
 
         </div>
 
-        <a href="/dashboard" class="checkout-btn">
+        <a href="/dashboard" class="sc-dashboard-btn">
             Back to Dashboard
         </a>
 

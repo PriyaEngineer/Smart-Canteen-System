@@ -7,76 +7,485 @@
 
     <title>Smart Canteen | Tiwari Uncle's Canteen</title>
 
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+            scroll-behavior: smooth;
+        }
+
+        body {
+            margin: 0;
+            font-family: Arial, sans-serif;
+            color: #26364a;
+            background: #ffffff;
+        }
+
+        /* Navbar */
+
+        .sc-navbar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 7%;
+            background: white;
+            box-shadow: 0 2px 12px rgba(30, 70, 120, 0.08);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .sc-logo {
+            font-size: 25px;
+            font-weight: bold;
+            color: #173b70;
+        }
+
+        .sc-logo span {
+            color: #2879d8;
+        }
+
+        .sc-nav-links {
+            display: flex;
+            gap: 28px;
+            list-style: none;
+            margin: 0;
+            padding: 0;
+        }
+
+        .sc-nav-links a {
+            text-decoration: none;
+            color: #52647a;
+            font-size: 14px;
+            font-weight: bold;
+            transition: 0.2s;
+        }
+
+        .sc-nav-links a:hover {
+            color: #2879d8;
+        }
+
+        .sc-nav-buttons {
+            display: flex;
+            gap: 12px;
+            align-items: center;
+        }
+
+        .sc-login-btn,
+        .sc-register-btn {
+            padding: 10px 18px;
+            border-radius: 7px;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .sc-login-btn {
+            color: #2879d8;
+            border: 1px solid #2879d8;
+        }
+
+        .sc-login-btn:hover {
+            background: #eaf3ff;
+        }
+
+        .sc-register-btn {
+            background: #2879d8;
+            color: white;
+        }
+
+        .sc-register-btn:hover {
+            background: #173b70;
+        }
+
+        /* Hero Section */
+
+        .sc-hero {
+            min-height: 490px;
+            background: linear-gradient(120deg, #173b70, #2879d8);
+            display: flex;
+            align-items: center;
+            padding: 70px 10%;
+            color: white;
+        }
+
+        .sc-hero-content {
+            max-width: 650px;
+        }
+
+        .sc-welcome-text {
+            font-size: 13px;
+            font-weight: bold;
+            letter-spacing: 2px;
+            color: #c8e0ff;
+        }
+
+        .sc-hero h1 {
+            font-size: 48px;
+            line-height: 1.2;
+            margin: 22px 0;
+        }
+
+        .sc-hero h1 span {
+            color: #c8e0ff;
+        }
+
+        .sc-hero-description {
+            font-size: 16px;
+            line-height: 1.8;
+            color: #e2edff;
+            max-width: 540px;
+            margin-bottom: 30px;
+        }
+
+        .sc-order-btn {
+            display: inline-block;
+            background: white;
+            color: #173b70;
+            padding: 14px 25px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .sc-order-btn:hover {
+            background: #e2edff;
+            transform: translateY(-2px);
+        }
+
+        /* Common Section */
+
+        .sc-section {
+            padding: 65px 8%;
+            text-align: center;
+        }
+
+        .sc-section h2 {
+            color: #173b70;
+            font-size: 29px;
+            margin: 0 0 12px;
+        }
+
+        .sc-section-description {
+            color: #7b899a;
+            font-size: 15px;
+            margin-bottom: 38px;
+        }
+
+        /* Categories */
+
+        .sc-category-container {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 22px;
+            max-width: 1000px;
+            margin: auto;
+        }
+
+        .sc-category-card {
+            background: #f5f8fd;
+            padding: 30px 15px;
+            border-radius: 13px;
+            border: 1px solid #e5edf7;
+            transition: 0.3s;
+        }
+
+        .sc-category-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 22px rgba(30, 70, 120, 0.10);
+        }
+
+        .sc-category-icon {
+            font-size: 38px;
+            margin-bottom: 12px;
+        }
+
+        .sc-category-card h3 {
+            color: #173b70;
+            font-size: 16px;
+            margin: 0;
+        }
+
+        /* Canteen Information */
+
+        .sc-menu-section {
+            background: #f5f8fd;
+        }
+
+        .sc-canteen-card {
+            max-width: 650px;
+            margin: 0 auto 45px;
+            padding: 28px;
+            background: white;
+            border: 1px solid #e1eaf5;
+            border-radius: 13px;
+            box-shadow: 0 5px 18px rgba(30, 70, 120, 0.05);
+        }
+
+        .sc-canteen-card h3 {
+            color: #173b70;
+            font-size: 22px;
+            margin: 0 0 10px;
+        }
+
+        .sc-canteen-card p {
+            color: #78879a;
+            font-size: 14px;
+        }
+
+        .sc-availability {
+            display: inline-block;
+            margin-top: 10px;
+            color: #219653;
+            background: #e2f6eb;
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        /* Food Menu */
+
+        .sc-food-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 22px;
+            max-width: 1050px;
+            margin: auto;
+        }
+
+        .sc-food-card {
+            background: white;
+            padding: 25px 20px;
+            border-radius: 13px;
+            border: 1px solid #e1eaf5;
+            text-align: left;
+            transition: 0.3s;
+        }
+
+        .sc-food-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 22px rgba(30, 70, 120, 0.09);
+        }
+
+        .sc-food-card h3 {
+            color: #173b70;
+            font-size: 19px;
+            margin: 0 0 12px;
+        }
+
+        .sc-food-card p {
+            color: #78879a;
+            font-size: 13px;
+            line-height: 1.6;
+        }
+
+        .sc-food-price {
+            color: #2879d8;
+            font-size: 20px;
+            font-weight: bold;
+            margin: 15px 0;
+        }
+
+        .sc-food-category {
+            display: inline-block;
+            background: #eaf3ff;
+            color: #2879d8;
+            padding: 6px 12px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .sc-food-availability {
+            margin-top: 12px;
+            font-size: 12px;
+            font-weight: bold;
+        }
+
+        .sc-available {
+            color: #219653;
+        }
+
+        .sc-unavailable {
+            color: #c0392b;
+        }
+
+        .sc-empty-menu {
+            grid-column: 1 / -1;
+            color: #78879a;
+            padding: 25px;
+        }
+
+        /* About Section */
+
+        .sc-about {
+            max-width: 800px;
+            margin: auto;
+        }
+
+        .sc-about p {
+            color: #68788d;
+            font-size: 15px;
+            line-height: 1.9;
+        }
+
+        /* Footer */
+
+        .sc-footer {
+            background: #173b70;
+            color: #e2edff;
+            text-align: center;
+            padding: 22px;
+            font-size: 13px;
+        }
+
+        .sc-footer p {
+            margin: 0;
+        }
+
+        /* Responsive */
+
+        @media (max-width: 850px) {
+            .sc-navbar {
+                flex-wrap: wrap;
+                gap: 18px;
+            }
+
+            .sc-nav-links {
+                gap: 15px;
+            }
+
+            .sc-category-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sc-food-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sc-hero h1 {
+                font-size: 38px;
+            }
+        }
+
+        @media (max-width: 600px) {
+            .sc-navbar {
+                padding: 18px 5%;
+            }
+
+            .sc-nav-links {
+                width: 100%;
+                justify-content: center;
+                gap: 18px;
+                flex-wrap: wrap;
+            }
+
+            .sc-nav-buttons {
+                width: 100%;
+                justify-content: center;
+            }
+
+            .sc-hero {
+                padding: 65px 7%;
+                min-height: 400px;
+            }
+
+            .sc-hero h1 {
+                font-size: 34px;
+            }
+
+            .sc-section {
+                padding: 50px 6%;
+            }
+
+            .sc-food-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sc-category-container {
+                gap: 13px;
+            }
+        }
+    </style>
+
 </head>
 
 <body>
 
     <!-- Navigation Bar -->
-    <header>
-        <nav class="navbar">
 
-            <div class="logo">
+    <header>
+        <nav class="sc-navbar">
+
+            <div class="sc-logo">
                 Smart<span>Canteen.</span>
             </div>
 
-            <ul class="nav-links">
+            <ul class="sc-nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#categories">Categories</a></li>
                 <li><a href="#menu">Menu</a></li>
                 <li><a href="#about">About</a></li>
             </ul>
 
-          
-<div class="nav-buttons">
+            <div class="sc-nav-buttons">
 
-    {% if session.get('user_id') %}
+                {% if session.get('user_id') %}
 
-        <a href="/dashboard" class="login-btn">
-            My Dashboard
-        </a>
+                    <a href="/dashboard" class="sc-login-btn">
+                        My Dashboard
+                    </a>
 
-        <a href="/logout" class="register-btn">
-            Logout
-        </a>
+                    <a href="/logout" class="sc-register-btn">
+                        Logout
+                    </a>
 
-    {% else %}
+                {% else %}
 
-        <a href="/login" class="login-btn">
-            Login
-        </a>
+                    <a href="/login" class="sc-login-btn">
+                        Login
+                    </a>
 
-        <a href="/register" class="register-btn">
-            Register
-        </a>
+                    <a href="/register" class="sc-register-btn">
+                        Register
+                    </a>
 
-    {% endif %}
+                {% endif %}
 
-</div>
-
+            </div>
 
         </nav>
     </header>
 
 
     <!-- Hero Section -->
-    <section class="hero" id="home">
 
-        <div class="hero-content">
+    <section class="sc-hero" id="home">
 
-            <p class="welcome-text">WELCOME TO SMART CANTEEN</p>
+        <div class="sc-hero-content">
+
+            <p class="sc-welcome-text">
+                WELCOME TO SMART CANTEEN
+            </p>
 
             <h1>
                 Your Campus Food,
                 <span>Just a Click Away!</span>
             </h1>
 
-            <p class="hero-description">
+            <p class="sc-hero-description">
                 Explore delicious food, order your favourites
                 and collect them from Tiwari Uncle's Canteen.
             </p>
 
-            <a href="#menu" class="order-btn">Explore Menu</a>
+            <a href="#menu" class="sc-order-btn">
+                Explore Menu →
+            </a>
 
         </div>
 
@@ -84,33 +493,34 @@
 
 
     <!-- Categories Section -->
-    <section class="categories" id="categories">
+
+    <section class="sc-section" id="categories">
 
         <h2>Explore Categories</h2>
 
-        <p class="section-description">
+        <p class="sc-section-description">
             Find something delicious for every craving.
         </p>
 
-        <div class="category-container">
+        <div class="sc-category-container">
 
-            <div class="category-card">
-                <div class="category-icon">🍔</div>
+            <div class="sc-category-card">
+                <div class="sc-category-icon">🍔</div>
                 <h3>Snacks</h3>
             </div>
 
-            <div class="category-card">
-                <div class="category-icon">🥪</div>
+            <div class="sc-category-card">
+                <div class="sc-category-icon">🥪</div>
                 <h3>Sandwiches</h3>
             </div>
 
-            <div class="category-card">
-                <div class="category-icon">🥤</div>
+            <div class="sc-category-card">
+                <div class="sc-category-icon">🥤</div>
                 <h3>Beverages</h3>
             </div>
 
-            <div class="category-card">
-                <div class="category-icon">🍜</div>
+            <div class="sc-category-card">
+                <div class="sc-category-icon">🍜</div>
                 <h3>Meals</h3>
             </div>
 
@@ -120,68 +530,102 @@
 
 
     <!-- Menu Section -->
-    <section class="menu" id="menu">
 
-    <h2>Our Canteen</h2>
+    <section class="sc-section sc-menu-section" id="menu">
 
-    <p class="section-description">
-        Fresh food, delicious taste and easy ordering.
-    </p>
+        <h2>Our Canteen</h2>
 
-    <div class="menu-card">
+        <p class="sc-section-description">
+            Fresh food, delicious taste and easy ordering.
+        </p>
 
-        <h3>Tiwari Uncle's Canteen</h3>
+        <div class="sc-canteen-card">
 
-        <p>Your favourite campus food destination.</p>
+            <h3>Tiwari Uncle's Canteen</h3>
 
-        <span class="availability">● Available for Orders</span>
+            <p>Your favourite campus food destination.</p>
 
-    </div>
-
-    <h2>Our Food Menu</h2>
-
-    <div class="food-container">
-
-        {% for item in menu_items %}
-
-        <div class="food-card">
-
-            <h3>{{ item.item_name }}</h3>
-
-            <p>{{ item.description }}</p>
-
-            <h4>₹{{ item.price }}</h4>
-
-            <span>{{ item.category }}</span>
-
-            <p>Available: {{ 'Yes' if item.is_available else 'No' }}</p>
+            <span class="sc-availability">
+                ● Available for Orders
+            </span>
 
         </div>
 
-        {% endfor %}
+        <h2>Our Food Menu</h2>
 
-    </div>
+        <p class="sc-section-description">
+            Explore what's available at our canteen.
+        </p>
 
-</section>
+        <div class="sc-food-container">
+
+            {% for item in menu_items %}
+
+                <div class="sc-food-card">
+
+                    <h3>{{ item.item_name }}</h3>
+
+                    <p>{{ item.description }}</p>
+
+                    <div class="sc-food-price">
+                        ₹{{ item.price }}
+                    </div>
+
+                    <span class="sc-food-category">
+                        {{ item.category }}
+                    </span>
+
+                    <p class="sc-food-availability
+                       {{ 'sc-available' if item.is_available else 'sc-unavailable' }}">
+
+                        Available:
+                        {{ 'Yes' if item.is_available else 'No' }}
+
+                    </p>
+
+                </div>
+
+            {% else %}
+
+                <p class="sc-empty-menu">
+                    No menu items are available right now.
+                </p>
+
+            {% endfor %}
+
+        </div>
+
+    </section>
 
 
     <!-- About Section -->
-    <section class="about" id="about">
 
-        <h2>About Smart Canteen</h2>
+    <section class="sc-section" id="about">
 
-        <p>
-            Smart Canteen makes campus food ordering easier.
-            Browse the menu, place your order and collect
-            your food from the canteen without waiting in long queues.
-        </p>
+        <div class="sc-about">
+
+            <h2>About Smart Canteen</h2>
+
+            <p>
+                Smart Canteen makes campus food ordering easier.
+                Browse the menu, place your order and collect
+                your food from the canteen without waiting in long queues.
+                Enjoy a simple and convenient campus food experience!
+            </p>
+
+        </div>
 
     </section>
 
 
     <!-- Footer -->
-    <footer>
-        <p>© 2026 Smart Canteen | Tiwari Uncle's Canteen</p>
+
+    <footer class="sc-footer">
+
+        <p>
+            © 2026 Smart Canteen | Tiwari Uncle's Canteen
+        </p>
+
     </footer>
 
 </body>

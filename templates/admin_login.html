@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Admin Login | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f3f7fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 25px;
+        }
+
+        .sc-login-container {
+            width: 100%;
+            max-width: 950px;
+            min-height: 550px;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            background: white;
+            border-radius: 18px;
+            overflow: hidden;
+            box-shadow: 0 10px 35px rgba(30, 70, 120, 0.10);
+        }
+
+        .sc-login-brand {
+            background: linear-gradient(145deg, #173b70, #2879d8);
+            color: white;
+            padding: 50px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sc-campus-tag {
+            display: inline-block;
+            width: fit-content;
+            background: rgba(255,255,255,0.15);
+            padding: 8px 14px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: bold;
+            letter-spacing: 1px;
+        }
+
+        .sc-login-brand h1 {
+            font-size: 42px;
+            line-height: 1.2;
+            margin: 25px 0 15px;
+        }
+
+        .sc-login-brand p {
+            color: #e2edff;
+            font-size: 15px;
+            line-height: 1.7;
+        }
+
+        .sc-food-illustration {
+            font-size: 42px;
+            margin: 20px 0;
+            letter-spacing: 5px;
+        }
+
+        .sc-canteen-name {
+            margin-top: 20px;
+            padding-top: 18px;
+            border-top: 1px solid rgba(255,255,255,0.25);
+            font-weight: bold;
+        }
+
+        .sc-login-form-section {
+            padding: 45px 40px;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .sc-back-home {
+            color: #2879d8;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: bold;
+            margin-bottom: 35px;
+        }
+
+        .sc-form-heading h2 {
+            color: #173b70;
+            font-size: 28px;
+            margin: 0 0 8px;
+        }
+
+        .sc-form-heading p {
+            color: #78879a;
+            font-size: 14px;
+            margin-bottom: 28px;
+        }
+
+        .sc-login-error {
+            background: #fff0f0;
+            color: #c0392b;
+            border: 1px solid #ffd6d6;
+            border-radius: 8px;
+            padding: 12px;
+            font-size: 13px;
+            margin-bottom: 18px;
+        }
+
+        .sc-login-form label {
+            display: block;
+            color: #34445a;
+            font-size: 13px;
+            font-weight: bold;
+            margin: 18px 0 8px;
+        }
+
+        .sc-login-form input {
+            width: 100%;
+            padding: 13px 14px;
+            border: 1px solid #dce5f0;
+            border-radius: 8px;
+            font-size: 14px;
+            outline: none;
+        }
+
+        .sc-login-form input:focus {
+            border-color: #2879d8;
+            box-shadow: 0 0 0 3px rgba(40,121,216,0.10);
+        }
+
+        .sc-login-form button {
+            width: 100%;
+            margin-top: 28px;
+            padding: 14px;
+            border: none;
+            border-radius: 8px;
+            background: #2879d8;
+            color: white;
+            font-size: 15px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sc-login-form button:hover {
+            background: #173b70;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 750px) {
+            .sc-login-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sc-login-brand {
+                padding: 35px 30px;
+            }
+
+            .sc-login-brand h1 {
+                font-size: 32px;
+            }
+
+            .sc-login-form-section {
+                padding: 35px 25px;
+            }
+        }
+    </style>
+
+</head>
+
+<body>
+
+    <div class="sc-login-container">
+
+        <!-- Left Branding Section -->
+
+        <div class="sc-login-brand">
+
+            <span class="sc-campus-tag">IGDTUW CAMPUS LIFE</span>
+
+            <h1>Admin<br>Portal</h1>
+
+            <p>Smart Canteen Management System</p>
+
+            <div class="sc-food-illustration">
+                🍽️ ☕ 🥪
+            </div>
+
+            <p>Manage orders and serve students efficiently.</p>
+
+            <p class="sc-canteen-name">
+                Featuring Tiwari Uncle's Canteen
+            </p>
+
+        </div>
+
+
+        <!-- Right Login Form -->
+
+        <div class="sc-login-form-section">
+
+            <a href="/" class="sc-back-home">
+                ← Back to Home
+            </a>
+
+            <div class="sc-form-heading">
+                <h2>Admin Login</h2>
+                <p>Login to manage your canteen.</p>
+            </div>
+
+            {% if error %}
+                <p class="sc-login-error">{{ error }}</p>
+            {% endif %}
+
+            <form method="POST" class="sc-login-form">
+
+                <label>Admin ID or Email</label>
+
+                <input
+                    type="text"
+                    name="identifier"
+                    placeholder="Enter Admin ID or Email"
+                    required
+                >
+
+                <label>Password</label>
+
+                <input
+                    type="password"
+                    name="password"
+                    placeholder="Enter Password"
+                    required
+                >
+
+                <button type="submit">
+                    Login as Admin →
+                </button>
+
+            </form>
+
+        </div>
+
+    </div>
+
+</body>
+</html>

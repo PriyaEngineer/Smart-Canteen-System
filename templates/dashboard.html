@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 
@@ -10,63 +9,349 @@
 
     <link rel="stylesheet"
           href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Arial, sans-serif;
+            background: #f6f9ff;
+            color: #1e293b;
+        }
+
+        /* NAVBAR */
+
+        .sc-navbar {
+            background: white;
+            padding: 18px 8%;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 3px 15px rgba(0,0,0,0.05);
+        }
+
+        .sc-logo {
+            font-size: 27px;
+            font-weight: 800;
+            color: #173b70;
+        }
+
+        .sc-logo span {
+            color: #3185e8;
+        }
+
+        .sc-nav-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .sc-nav-links a {
+            text-decoration: none;
+            padding: 11px 20px;
+            border-radius: 8px;
+            font-weight: 600;
+            color: #2563a9;
+            background: #edf4ff;
+            transition: 0.3s;
+        }
+
+        .sc-nav-links a:hover {
+            background: #dceaff;
+        }
+
+        .sc-nav-links .sc-logout {
+            background: #2879d8;
+            color: white;
+        }
+
+        .sc-nav-links .sc-logout:hover {
+            background: #155baa;
+        }
+
+        /* WELCOME SECTION */
+
+        .sc-welcome {
+            margin: 40px auto;
+            width: 84%;
+            padding: 55px 45px;
+            border-radius: 20px;
+            background: linear-gradient(120deg, #173b70, #398ce9);
+            color: white;
+            box-shadow: 0 12px 30px rgba(35, 105, 190, 0.15);
+        }
+
+        .sc-welcome h1 {
+            font-size: 34px;
+            margin-bottom: 14px;
+        }
+
+        .sc-welcome p {
+            font-size: 16px;
+            color: #e6f1ff;
+            line-height: 1.7;
+        }
+
+        .sc-tag {
+            display: inline-block;
+            margin-bottom: 15px;
+            padding: 7px 14px;
+            background: rgba(255,255,255,0.16);
+            border-radius: 20px;
+            font-size: 13px;
+        }
+
+        /* MENU SECTION */
+
+        .sc-menu {
+            width: 84%;
+            margin: 55px auto;
+        }
+
+        .sc-heading {
+            margin-bottom: 30px;
+        }
+
+        .sc-heading h2 {
+            font-size: 29px;
+            color: #173b70;
+            margin-bottom: 9px;
+        }
+
+        .sc-heading p {
+            color: #718096;
+            font-size: 15px;
+        }
+
+        /* FOOD CARDS */
+
+        .sc-food-container {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 25px;
+        }
+
+        .sc-food-card {
+            background: white;
+            padding: 27px;
+            border-radius: 16px;
+            border: 1px solid #e8eef8;
+            box-shadow: 0 5px 20px rgba(30, 64, 120, 0.05);
+            transition: 0.3s;
+        }
+
+        .sc-food-card:hover {
+            transform: translateY(-7px);
+            box-shadow: 0 12px 28px rgba(30, 64, 120, 0.12);
+        }
+
+        .sc-food-icon {
+            width: 58px;
+            height: 58px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: #edf4ff;
+            border-radius: 14px;
+            font-size: 30px;
+            margin-bottom: 20px;
+        }
+
+        .sc-food-card h3 {
+            font-size: 20px;
+            color: #173b70;
+            margin-bottom: 10px;
+        }
+
+        .sc-food-card p {
+            font-size: 14px;
+            color: #718096;
+            line-height: 1.6;
+            min-height: 45px;
+            margin-bottom: 15px;
+        }
+
+        .sc-price {
+            font-size: 23px;
+            color: #2879d8;
+            font-weight: 700;
+            margin-bottom: 15px;
+        }
+
+        .sc-category {
+            display: inline-block;
+            background: #edf4ff;
+            color: #2879d8;
+            padding: 6px 13px;
+            border-radius: 20px;
+            font-size: 12px;
+            margin-bottom: 18px;
+        }
+
+        .sc-add-btn {
+            width: 100%;
+            padding: 13px;
+            background: #2879d8;
+            color: white;
+            border: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .sc-add-btn:hover {
+            background: #155baa;
+        }
+
+        .sc-empty {
+            grid-column: 1 / -1;
+            text-align: center;
+            background: white;
+            padding: 45px;
+            border-radius: 15px;
+            color: #718096;
+        }
+
+        /* FOOTER */
+
+        .sc-footer {
+            margin-top: 70px;
+            background: #173b70;
+            color: white;
+            text-align: center;
+            padding: 23px;
+            font-size: 14px;
+        }
+
+        /* RESPONSIVE */
+
+        @media(max-width: 850px) {
+            .sc-food-container {
+                grid-template-columns: repeat(2, 1fr);
+            }
+
+            .sc-welcome,
+            .sc-menu {
+                width: 90%;
+            }
+        }
+
+        @media(max-width: 550px) {
+            .sc-navbar {
+                flex-direction: column;
+                gap: 18px;
+            }
+
+            .sc-nav-links {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+
+            .sc-nav-links a {
+                padding: 9px 12px;
+                font-size: 13px;
+            }
+
+            .sc-welcome {
+                padding: 35px 23px;
+            }
+
+            .sc-welcome h1 {
+                font-size: 25px;
+            }
+
+            .sc-food-container {
+                grid-template-columns: 1fr;
+            }
+
+            .sc-heading h2 {
+                font-size: 24px;
+            }
+        }
+
+    </style>
+
 </head>
 
 <body>
 
-    <header>
-        <nav class="navbar">
+    <!-- NAVBAR -->
 
-            <div class="logo">
-                Smart<span>Canteen.</span>
-            </div>
+    <header class="sc-navbar">
 
-            <div class="nav-buttons">
-                <a href="/cart" class="login-btn">My Cart</a>
-                <a href="/logout" class="register-btn">Logout</a>
-            </div>
+        <div class="sc-logo">
+            Smart<span>Canteen.</span>
+        </div>
 
+        <nav class="sc-nav-links">
+            <a href="{{ url_for('my_orders') }}">My Orders</a>
+            <a href="{{ url_for('cart') }}">My Cart</a>
+            <a href="{{ url_for('logout') }}" class="sc-logout">Logout</a>
         </nav>
+
     </header>
 
-    <section class="dashboard-welcome">
+
+    <!-- WELCOME SECTION -->
+
+    <section class="sc-welcome">
+
+        <span class="sc-tag">STUDENT DASHBOARD</span>
 
         <h1>Welcome, {{ student_name }}! 👋</h1>
 
         <p>
-            Explore the menu and choose your favourite food.
+            Good food, great mood! Explore our menu and order
+            your favourite food in just a few clicks.
         </p>
 
     </section>
 
-    <section class="menu">
 
-        <h2>Tiwari Uncle's Canteen</h2>
+    <!-- FOOD MENU -->
 
-        <p class="section-description">
-            Fresh food, delicious taste and easy ordering.
-        </p>
+    <section class="sc-menu">
 
-        <h2>Available Food Menu</h2>
+        <div class="sc-heading">
 
-        <div class="food-container">
+            <h2>Explore Our Menu 🍽️</h2>
+
+            <p>
+                Fresh food, delicious taste and easy ordering
+                at Tiwari Uncle's Canteen.
+            </p>
+
+        </div>
+
+        <div class="sc-food-container">
 
             {% for item in menu_items %}
 
-            <div class="food-card">
+            <div class="sc-food-card">
+
+                <div class="sc-food-icon">🍴</div>
 
                 <h3>{{ item.item_name }}</h3>
 
                 <p>{{ item.description }}</p>
 
-                <h4>₹{{ item.price }}</h4>
+                <div class="sc-price">
+                    ₹{{ item.price }}
+                </div>
 
-                <span>{{ item.category }}</span>
+                <span class="sc-category">
+                    {{ item.category }}
+                </span>
 
                 <form action="{{ url_for('add_to_cart', item_id=item.item_id) }}"
                       method="POST">
 
-                    <button type="submit" class="add-cart-btn">
+                    <button type="submit" class="sc-add-btn">
                         Add to Cart +
                     </button>
 
@@ -76,7 +361,10 @@
 
             {% else %}
 
-            <p>No food items are available right now.</p>
+            <div class="sc-empty">
+                <h3>No food items available right now.</h3>
+                <p>Please check again later!</p>
+            </div>
 
             {% endfor %}
 
@@ -84,7 +372,10 @@
 
     </section>
 
-    <footer>
+
+    <!-- FOOTER -->
+
+    <footer class="sc-footer">
         <p>© 2026 Smart Canteen | Tiwari Uncle's Canteen</p>
     </footer>
 

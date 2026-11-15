@@ -1,18 +1,105 @@
-
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Registration Successful</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+
+    <title>Registration Successful | Smart Canteen</title>
+
+    <link rel="stylesheet"
+          href="{{ url_for('static', filename='css/style.css') }}">
+
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+
+        body {
+            margin: 0;
+            min-height: 100vh;
+            font-family: Arial, sans-serif;
+            background: #f3f7fd;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .sc-success-card {
+            width: 100%;
+            max-width: 480px;
+            background: white;
+            padding: 45px 35px;
+            border-radius: 18px;
+            text-align: center;
+            box-shadow: 0 10px 35px rgba(30, 70, 120, 0.10);
+        }
+
+        .sc-success-icon {
+            width: 80px;
+            height: 80px;
+            margin: 0 auto 25px;
+            background: #e2f6eb;
+            color: #219653;
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            font-size: 45px;
+            font-weight: bold;
+        }
+
+        .sc-success-card h1 {
+            color: #173b70;
+            font-size: 27px;
+            margin-bottom: 15px;
+        }
+
+        .sc-success-card p {
+            color: #718096;
+            font-size: 15px;
+            line-height: 1.7;
+            margin: 8px 0;
+        }
+
+        .sc-success-button {
+            display: inline-block;
+            width: 100%;
+            margin-top: 28px;
+            padding: 14px 20px;
+            background: #2879d8;
+            color: white;
+            text-decoration: none;
+            border-radius: 9px;
+            font-size: 15px;
+            font-weight: bold;
+            transition: 0.3s;
+        }
+
+        .sc-success-button:hover {
+            background: #173b70;
+            transform: translateY(-2px);
+        }
+
+        @media (max-width: 480px) {
+            .sc-success-card {
+                padding: 35px 22px;
+            }
+
+            .sc-success-card h1 {
+                font-size: 23px;
+            }
+        }
+    </style>
+
 </head>
 
-<body class="register-page">
+<body>
 
-    <div class="success-card">
+    <div class="sc-success-card">
 
-        <div class="success-icon">✓</div>
+        <div class="sc-success-icon">✓</div>
 
         <h1>Registration Successful!</h1>
 
@@ -20,7 +107,9 @@
 
         <p>Your account has been created successfully.</p>
 
-        <a href="/" class="success-button">Explore Our Canteen</a>
+        <a href="/" class="sc-success-button">
+            Explore Our Canteen
+        </a>
 
     </div>
 
