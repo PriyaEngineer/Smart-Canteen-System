@@ -31,6 +31,38 @@ The system allows students to browse food items, add products to their cart, pla
   - Completed
   - Rejected
 
+## 📸 Project Screenshots
+
+### 1. Homepage
+![Homepage](screenshots/01-homepage.png)
+
+### 2. Menu
+![Menu](screenshots/02-menu.png)
+
+### 3. Student Registration
+![Student Registration](screenshots/03-student-register.png)
+
+### 4. Student Login
+![Student Login](screenshots/04-student-login.png)
+
+### 5. Student Dashboard
+![Student Dashboard](screenshots/05-student-dashboard.png)
+
+### 6. Shopping Cart
+![Shopping Cart](screenshots/06-shopping-cart.png)
+
+### 7. Checkout
+![Checkout](screenshots/07-checkout.png)
+
+### 8. Order Success
+![Order Success](screenshots/08-order-success.png)
+
+### 9. My Orders
+![My Orders](screenshots/09-my-orders.png)
+
+### 10. Admin Login
+![Admin Login](screenshots/10-admin-login.png)
+
 ## 🛠️ Technology Stack
 
 | Technology | Purpose |
