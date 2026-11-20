@@ -433,31 +433,37 @@
                 <li><a href="#about">About</a></li>
             </ul>
 
-            <div class="sc-nav-buttons">
+           
+<div class="sc-nav-buttons">
 
-                {% if session.get('user_id') %}
+    {% if session.get('user_id') %}
 
-                    <a href="/dashboard" class="sc-login-btn">
-                        My Dashboard
-                    </a>
+        <a href="/dashboard" class="sc-login-btn">
+            My Dashboard
+        </a>
 
-                    <a href="/logout" class="sc-register-btn">
-                        Logout
-                    </a>
+        <a href="/logout" class="sc-register-btn">
+            Logout
+        </a>
 
-                {% else %}
+    {% else %}
 
-                    <a href="/login" class="sc-login-btn">
-                        Login
-                    </a>
+        <a href="/login" class="sc-login-btn">
+            Login
+        </a>
 
-                    <a href="/register" class="sc-register-btn">
-                        Register
-                    </a>
+        <a href="/register" class="sc-register-btn">
+            Register
+        </a>
 
-                {% endif %}
+    {% endif %}
 
-            </div>
+    <a href="{{ url_for('admin_login') }}" class="sc-login-btn">
+        Admin Login
+    </a>
+
+</div>
+
 
         </nav>
     </header>

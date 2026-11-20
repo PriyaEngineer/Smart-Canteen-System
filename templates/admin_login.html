@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="en">
 
@@ -186,8 +187,6 @@
 
     <div class="sc-login-container">
 
-        <!-- Left Branding Section -->
-
         <div class="sc-login-brand">
 
             <span class="sc-campus-tag">IGDTUW CAMPUS LIFE</span>
@@ -208,9 +207,6 @@
 
         </div>
 
-
-        <!-- Right Login Form -->
-
         <div class="sc-login-form-section">
 
             <a href="/" class="sc-back-home">
@@ -226,7 +222,9 @@
                 <p class="sc-login-error">{{ error }}</p>
             {% endif %}
 
-            <form method="POST" class="sc-login-form">
+            <form method="POST"
+                  action="{{ url_for('admin_login') }}"
+                  class="sc-login-form">
 
                 <label>Admin ID or Email</label>
 

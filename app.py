@@ -689,6 +689,14 @@ def logout():
     session.clear()
 
     return redirect(url_for('home'))
+# ADMIN LOGOUT
+@app.route('/admin/logout')
+def admin_logout():
+
+    session.pop('admin_id', None)
+    session.pop('admin_name', None)
+
+    return redirect(url_for('admin_login'))
 
 
 # LOCAL DEVELOPMENT SERVER
