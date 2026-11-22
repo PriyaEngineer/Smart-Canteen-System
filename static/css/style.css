@@ -802,3 +802,54 @@ footer {
 
 }
 
+/* FOOD MENU GRID */
+.sc-food-container {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 25px;
+    width: min(1100px, calc(100% - 40px));
+    max-width: 1100px;
+    margin: 30px auto;
+}
+
+/* FOOD CARDS */
+.sc-food-card {
+    width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    overflow: hidden;
+    padding: 18px;
+    border-radius: 16px;
+    background: white;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.sc-food-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.12);
+}
+
+/* FOOD IMAGES */
+.sc-food-card .sc-food-image {
+    display: block !important;
+    width: 100% !important;
+    height: 190px !important;
+    max-width: 100% !important;
+    object-fit: cover !important;
+    border-radius: 12px;
+    margin-bottom: 15px;
+}
+
+/* TABLET */
+@media (max-width: 850px) {
+    .sc-food-container {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+}
+
+/* MOBILE */
+@media (max-width: 600px) {
+    .sc-food-container {
+        grid-template-columns: 1fr;
+    }
+}

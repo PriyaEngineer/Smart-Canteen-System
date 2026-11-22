@@ -1,6 +1,6 @@
 import os
 
-from flask import Flask, render_template, request, redirect, url_for, session
+from flask import Flask, render_template, request, redirect, url_for, session, jsonify
 from db import get_db_connection
 from werkzeug.security import generate_password_hash, check_password_hash
 from datetime import datetime
@@ -377,6 +377,38 @@ def my_orders():
         'my_orders.html',
         orders=list(orders.values())
     )
+
+# STUDENT REAL-TIME ORDER STATUS API
+@app.route('/api/my-orders/status')
+def my_order_status():
+
+    if 'user_id' not in session:
+        return jsonify({'error': 'Unauthorized'}), 401
+
+    connection = get_db_connection()
+    cursor = connection.cursor(dictionary=True)
+
+    try:
+        cursor.execute(
+            """
+            SELECT order_id, status, preparation_time
+            FROM orders
+            WHERE user_id = %s
+            ORDER BY order_date DESC
+            """,
+            (session['user_id'],)
+        )
+
+        orders = cursor.fetchall()
+
+        response = jsonify({'orders': orders})
+        response.headers['Cache-Control'] = 'no-store'
+
+        return response
+
+    finally:
+        cursor.close()
+        connection.close()
 
 
 # ADD ITEM TO CART

@@ -7,8 +7,7 @@
 
     <title>Smart Canteen | Tiwari Uncle's Canteen</title>
 
-    <link rel="stylesheet"
-          href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
 
     <style>
         * {
@@ -108,12 +107,31 @@
             background: linear-gradient(120deg, #173b70, #2879d8);
             display: flex;
             align-items: center;
+            justify-content: space-between;
+            gap: 40px;
             padding: 70px 10%;
             color: white;
         }
 
         .sc-hero-content {
-            max-width: 650px;
+            flex: 1;
+            max-width: 560px;
+        }
+
+        .sc-hero-image {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sc-hero-image img {
+            width: 100%;
+            max-width: 580px;
+            height: 360px;
+            object-fit: cover;
+            border-radius: 22px;
+            box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
         }
 
         .sc-welcome-text {
@@ -399,6 +417,27 @@
                 font-size: 34px;
             }
 
+            .sc-hero {
+                flex-direction: column;
+                text-align: center;
+                padding: 55px 7%;
+                gap: 30px;
+            }
+
+            .sc-hero-content {
+                max-width: 100%;
+            }
+
+            .sc-hero-image {
+                width: 100%;
+            }
+
+            .sc-hero-image img {
+                width: 100%;
+                max-width: 450px;
+                height: 250px;
+            }
+
             .sc-section {
                 padding: 50px 6%;
             }
@@ -437,23 +476,23 @@
 
                 {% if session.get('user_id') %}
 
-                    <a href="/dashboard" class="sc-login-btn">
-                        My Dashboard
-                    </a>
+                <a href="/dashboard" class="sc-login-btn">
+                    My Dashboard
+                </a>
 
-                    <a href="/logout" class="sc-register-btn">
-                        Logout
-                    </a>
+                <a href="/logout" class="sc-register-btn">
+                    Logout
+                </a>
 
                 {% else %}
 
-                    <a href="/login" class="sc-login-btn">
-                        Login
-                    </a>
+                <a href="/login" class="sc-login-btn">
+                    Login
+                </a>
 
-                    <a href="/register" class="sc-register-btn">
-                        Register
-                    </a>
+                <a href="/register" class="sc-register-btn">
+                    Register
+                </a>
 
                 {% endif %}
 
@@ -486,6 +525,14 @@
             <a href="#menu" class="sc-order-btn">
                 Explore Menu →
             </a>
+
+        </div>
+
+        <!-- Hero Food Image -->
+
+        <div class="sc-hero-image">
+
+            <img src="{{ url_for('static', filename='images/burger.jpg') }}" alt="Delicious food from Smart Canteen">
 
         </div>
 
@@ -559,37 +606,45 @@
 
         <div class="sc-food-container">
 
+            {% set image_map = {
+            'Samosa': 'samosa.jpg',
+            'Veg Sandwich': 'sandwich.jpg',
+            'Burger': 'burger.jpg',
+            'Veg Thali': 'thali.jpg',
+            'Tea': 'tea.jpg',
+            'Cold Coffee': 'cold-coffee.jpg'
+            } %}
+
             {% for item in menu_items %}
 
-                <div class="sc-food-card">
+            <div class="sc-food-card">
 
-                    <h3>{{ item.item_name }}</h3>
+                <img src="{{ url_for('static', filename='images/' ~ image_map.get(item.item_name, 'samosa.jpg')) }}"
+                    alt="{{ item.item_name }}" class="sc-food-image">
 
-                    <p>{{ item.description }}</p>
+                <h3>{{ item.item_name }}</h3>
 
-                    <div class="sc-food-price">
-                        ₹{{ item.price }}
-                    </div>
+                <p>{{ item.description }}</p>
 
-                    <span class="sc-food-category">
-                        {{ item.category }}
-                    </span>
-
-                    <p class="sc-food-availability
-                       {{ 'sc-available' if item.is_available else 'sc-unavailable' }}">
-
-                        Available:
-                        {{ 'Yes' if item.is_available else 'No' }}
-
-                    </p>
-
+                <div class="sc-food-price">
+                    ₹{{ item.price }}
                 </div>
+
+                <span class="sc-food-category">
+                    {{ item.category }}
+                </span>
+
+                <p class="sc-food-availability {{ 'sc-available' if item.is_available else 'sc-unavailable' }}">
+                    Available: {{ 'Yes' if item.is_available else 'No' }}
+                </p>
+
+            </div>
 
             {% else %}
 
-                <p class="sc-empty-menu">
-                    No menu items are available right now.
-                </p>
+            <p class="sc-empty-menu">
+                No menu items are available right now.
+            </p>
 
             {% endfor %}
 
@@ -629,4 +684,5 @@
     </footer>
 
 </body>
+
 </html>

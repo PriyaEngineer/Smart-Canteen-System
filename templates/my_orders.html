@@ -338,6 +338,80 @@
 
 </head>
 
+<script>
+async function refreshOrderStatuses() {
+    try {
+        const response = await fetch('/api/my-orders/status', {
+            cache: 'no-store'
+        });
+
+        if (!response.ok) return;
+
+        const data = await response.json();
+
+        data.orders.forEach(order => {
+            const orderId = order.order_id;
+            const status = order.status;
+
+            // Update status text and CSS class
+            const statusElement = document.getElementById(
+                `order-status-${orderId}`
+            );
+
+            if (statusElement) {
+                const statusClasses = {
+                    'Pending': 'sc-pending',
+                    'Accepted': 'sc-accepted',
+                    'Preparing': 'sc-preparing',
+                    'Ready for Pickup': 'sc-ready',
+                    'Completed': 'sc-completed',
+                    'Rejected': 'sc-rejected'
+                };
+
+                statusElement.textContent = status;
+                statusElement.className =
+                    'sc-status ' + (statusClasses[status] || '');
+            }
+
+            // Update preparation time
+            const prepElement = document.getElementById(
+                `prep-time-${orderId}`
+            );
+
+            if (prepElement && order.preparation_time !== null) {
+                prepElement.textContent =
+                    `${order.preparation_time} minutes`;
+            }
+
+            // Update status message
+            const messageElement = document.getElementById(
+                `status-message-${orderId}`
+            );
+
+            const messages = {
+                'Pending': '⏳ Your order is waiting for admin approval.',
+                'Accepted': '✅ Your order has been accepted!',
+                'Preparing': '👨‍🍳 Your food is being prepared.',
+                'Ready for Pickup': '🎉 Your food is ready. Please collect it!',
+                'Completed': '✔️ Order successfully completed!',
+                'Rejected': 'Unfortunately, your order was rejected.'
+            };
+
+            if (messageElement) {
+                messageElement.textContent =
+                    messages[status] || '';
+            }
+        });
+
+    } catch (error) {
+        console.error('Unable to refresh order statuses:', error);
+    }
+}
+
+// Refresh every 10 seconds
+setInterval(refreshOrderStatuses, 10000);
+</script>
+
 <body>
 
     <!-- NAVBAR -->
@@ -386,14 +460,14 @@
 
         {% for order in orders %}
 
-        <div class="sc-order-card">
+        <div class="sc-order-card" data-order-id="{{ order.order_id }}">
 
             <!-- ORDER HEADER -->
             <div class="sc-order-header">
 
                 <h3>Order #{{ order.order_id }}</h3>
 
-                <span class="sc-status
+                <span id="order-status-{{ order.order_id }}" class="sc-status
                     {% if order.status == 'Pending' %}sc-pending
                     {% elif order.status == 'Accepted' %}sc-accepted
                     {% elif order.status == 'Preparing' %}sc-preparing
@@ -436,7 +510,9 @@
 
                     <span>Preparation Time</span>
 
-                    <strong>{{ order.preparation_time }} minutes</strong>
+                    <strong id="prep-time-{{ order.order_id }}">
+    {{ order.preparation_time }} minutes
+</strong>
 
                 </div>
 
@@ -480,7 +556,7 @@
 
 
             <!-- STATUS MESSAGE -->
-            <div class="sc-status-message">
+            <div class="sc-status-message" id="status-message-{{ order.order_id }}">
 
                 {% if order.status == 'Pending' %}
 
